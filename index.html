@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rhenz Lanuza - Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================= BASE ================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #ffffff;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ================= SIDEBAR ================= */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
+      background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+      padding: 40px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h1 {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .sidebar p {
+      color: #9ca3af;
+      font-size: 0.9rem;
+      margin-bottom: 40px;
+    }
+
+    .sidebar a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin: 12px 0;
+      display: block;
+      padding: 10px 0;
+      transition: 0.3s;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .sidebar a:hover {
+      color: #6366f1;
+      transform: translateX(8px);
+    }
+
+    .sidebar a.active {
+      color: #6366f1;
+      font-weight: 600;
+    }
+
+    .sidebar a.active::before {
+      content: '';
+      position: absolute;
+      left: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 20px;
+      background: #6366f1;
+      border-radius: 2px;
+    }
+
+    /* ================= MAIN ================= */
+    .main {
+      margin-left: 260px;
+      width: calc(100% - 260px);
+      min-height: 100vh;
+    }
+
+    /* ================= SECTIONS ================= */
+    section {
+      padding: 100px 80px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 50px;
+      text-align: center;
+      color: #111827;
+    }
+
+    /* ================= HERO ================= */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: 
+        linear-gradient(rgba(248,250,252,0.92), rgba(248,250,252,0.92)),
+        url('https://images.unsplash.com/photo-1498050108023-c5249f4df085');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      color: #111827;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero h1 span {
+      color: #6366f1;
+      background: linear-gradient(45deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: #64748b;
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 32px;
+      background: linear-gradient(45deg, #6366f1, #8b5cf6);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+    }
+
+    /* ================= GRID & CARDS ================= */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .card {
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(50px);
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      color: #111827;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    /* ================= CONTACT ================= */
+    .contact-box {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .contact-box p {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .contact-box strong {
+      color: #111827;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    /* ================= TABLET ================= */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+
+  section {
+    padding: 80px 40px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  /* SIDEBAR becomes TOP NAV */
+  .sidebar {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+  }
+
+  .sidebar h1,
+  .sidebar p {
+    display: none;
+  }
+
+  .sidebar a {
+    margin: 0 10px;
+    font-size: 0.85rem;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 70px;
+  }
+
+  section {
+    padding: 70px 20px;
+  }
+
+  .hero {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-box {
+    text-align: center;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+@media (max-width: 480px) {
+
+  .sidebar a {
+    font-size: 0.75rem;
+    margin: 0 6px;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}/* ================= TABLET ================= */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+
+  section {
+    padding: 80px 40px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ================= MOBILE ================= */
+    @media (max-width: 768px) {
+    
+      /* SIDEBAR becomes TOP NAV */
+      .sidebar {
+        position: fixed;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+      }
+    
+      .sidebar h1,
+      .sidebar p {
+        display: none;
+      }
+    
+      .sidebar a {
+        margin: 0 10px;
+        font-size: 0.85rem;
+      }
+    
+      .main {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 70px;
+      }
+    
+      section {
+        padding: 70px 20px;
+      }
+    
+      .hero {
+        text-align: center;
+        justify-content: center;
+      }
+    
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+    
+      .hero p {
+        font-size: 1rem;
+      }
+    
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    
+      .service-box {
+        text-align: center;
+      }
+    }
+    
+    /* ================= SMALL MOBILE ================= */
+    @media (max-width: 480px) {
+    
+      .sidebar a {
+        font-size: 0.75rem;
+        margin: 0 6px;
+      }
+    
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+    
+      .btn {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+      }
+    
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* ================= ANIMATIONS ================= */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card.show {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    #about {
+      background: 
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .services {
+      background: 
+        linear-gradient(rgba(248,250,252,0.95), rgba(248,250,252,0.95)),
+        url('https://images.unsplash.com/photo-1555066931-4365d14bab8c');
+      background-size: cover;
+      background-position: center;
+    }
+    #work {
+      background: 
+        linear-gradient(rgba(248,250,252,0.92), rgba(248,250,252,0.92)),
+        url('https://images.unsplash.com/photo-1522542550221-31fd19575a2d');
+      background-size: cover;
+      background-position: center;
+    }
+    #contact {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: #111827;
+    }
+    
+    .section-title p {
+      color: #64748b;
+      margin-top: 10px;
+    }
+    
+    /* SERVICE BOX (COLORLIB STYLE) */
+    .service-box {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+      transition: 0.3s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    
+    .service-box.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .service-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    }
+    
+    .service-box h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #111827;
+    }
+    
+    .service-box p {
+      color: #64748b;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .grid {
+      align-items: stretch;
+    }
+    section {
+      transition: all 0.3s ease;
+    }
+    .services .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* FORCE 3 columns */
+      gap: 30px;
+    }
+    @media (max-width: 768px) {
+  .services .grid {
+    grid-template-columns: 1fr; /* mobile = 1 column */
+  }
+}
+:root {
+  --bg-main: #ffffff;
+  --bg-section: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #111827;
+  --text-secondary: #64748b;
+  --accent: #6366f1;
+}
+
+body.dark {
+  --bg-main: #0f172a;
+  --bg-section: #020617;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-secondary: #cbd5f5;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.card, .service-box, .contact-box {
+  background: var(--card);
+}
+  </style>
+</head>
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar" id="sidebar">
+  <h1>Rhenz Lanuza</h1>
+  <p>WordPress & Frontend Developer</p>
+  
+  <a href="#home" class="nav-link active">Home</a>
+  <a href="#about" class="nav-link">About</a>
+  <a href="#services" class="nav-link">Services</a>
+  <a href="#skills" class="nav-link">Skills</a>
+  <a href="#education" class="nav-link">Education</a>
+  <a href="#experience" class="nav-link">Experience</a>
+  <a href="#work" class="nav-link">Work</a>
+  <a href="#blog" class="nav-link">Blog</a>
+  <a href="#contact" class="nav-link">Contact</a>
+</div>
+
+<!-- ================= MAIN ================= -->
+<div class="main">
+
+  <!-- HOME -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Hi, I'm <span>Rhenz Lanuza</span></h1>
+      <p>WordPress & Frontend Developer based in Philippines</p>
+      <p style="max-width:600px; color:#64748b; font-size:1.2rem; margin-bottom:40px;">
+        I build modern, responsive, and high-converting websites using WordPress, Elementor, HTML, CSS, JavaScript, PHP, and MySQL.
+      </p>
+      <a href="#work" class="btn">View My Work</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about" style="background: #ffffff;">
+    <h2>About Me</h2>
+    <p style="max-width:800px; margin:0 auto 50px; color:#64748b; line-height:1.8; font-size:1.1rem; text-align:center;">
+      I am a BSIT graduate from Saint Louis College, San Fernando, La Union.  
+      I specialize in building modern web systems, WordPress websites, and frontend interfaces.
+      I focus on clean design, performance, and user experience.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>💻 Web Development</h3>
+        <p>Building responsive websites and web applications with modern technologies.</p>
+      </div>
+      <div class="card">
+        <h3>🎨 UI/UX Design</h3>
+        <p>Creating intuitive and beautiful user interfaces focused on user experience.</p>
+      </div>
+      <div class="card">
+        <h3>⚙️ System Development</h3>
+        <p>Full-stack system development with PHP, MySQL, and modern frameworks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+<section class="services" id="services">
+
+  <div class="section-title">
+    <h2>What I Do?</h2>
+    <p>Here are my core skills and expertise</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="service-box">
+      <h3>💡 Creative Solutions</h3>
+      <p>I develop practical and efficient ideas to solve real-world web development problems and improve user experience.</p>
+    </div>
+
+    <div class="service-box">
+      <h3>💻 Web Development</h3>
+      <p>I build responsive and modern websites using HTML, CSS, JavaScript, PHP, and MySQL for clean and functional systems.</p>
+    </div>
+
+    <div class="service-box">
+      <h3>📱 Web Applications</h3>
+      <p>I create dynamic web-based systems such as inventory systems, dashboards, and management tools with database integration.</p>
+    </div>
+
+    <div class="service-box">
+      <h3>🎨 UI / UX Design</h3>
+      <p>I design clean and user-friendly interfaces focused on usability, accessibility, and modern visual standards.</p>
+    </div>
+
+    <div class="service-box">
+      <h3>⚙️ WordPress Development</h3>
+      <p>I build custom WordPress websites using Elementor, optimized for performance, responsiveness, and client needs.</p>
+    </div>
+
+    <div class="service-box">
+      <h3>🚀 System Development</h3>
+      <p>I develop full systems like inventory and transaction management using PHP and MySQL for real business solutions.</p>
+    </div>
+
+  </div>
+
+</section>
+
+  <!-- SKILLS -->
+  <section id="skills" style="background: #ffffff;">
+    <h2>Skills</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>HTML / CSS / JavaScript</h3>
+        <p><strong>90%</strong> - Advanced proficiency in modern web technologies</p>
+      </div>
+      <div class="card">
+        <h3>PHP / MySQL</h3>
+        <p><strong>90%</strong> - Backend development and database management</p>
+      </div>
+      <div class="card">
+        <h3>WordPress / Elementor</h3>
+        <p><strong>90%</strong> - Custom WordPress development and page building</p>
+      </div>
+      <div class="card">
+        <h3>UI/UX Design</h3>
+        <p><strong>95%</strong> - Modern design principles and user experience</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" style="background: #f8fafc;">
+    <h2>Education</h2>
+    <div class="grid">
+      <div class="card" style="grid-column: span 2;">
+        <h3>Bachelor of Science in Information Technology</h3>
+        <p><strong>Saint Louis College, San Fernando City, La Union</strong></p>
+        <p>2021 - 2025 | Graduated: 2025</p>
+        <p style="margin-top:20px; color:#64748b;">
+          Specialized in Web Development, Software Engineering, and Database Systems.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" style="background: #ffffff;">
+    <h2>Experience</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Web Developer Intern</h3>
+        <p>Worked on inventory systems, PHP/MySQL projects, frontend UI design, and database optimization.</p>
+        <p style="margin-top:15px; color:#6366f1; font-weight:600;">2024</p>
+      </div>
+      <div class="card">
+        <h3>Freelance Developer</h3>
+        <p>Created WordPress websites, landing pages, and custom web solutions for small businesses and startups.</p>
+        <p style="margin-top:15px; color:#6366f1; font-weight:600;">2023 - Present</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" style="background: #f8fafc;">
+    <h2>My Work</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Inventory System</h3>
+        <p>PHP + MySQL full-stack system for stock management with user authentication and reporting.</p>
+      </div>
+      <div class="card">
+        <h3>SaaS Landing Page</h3>
+        <p>High-converting modern landing page design with animations and conversion optimization.</p>
+      </div>
+      <div class="card">
+        <h3>WordPress Website</h3>
+        <p>Custom Elementor business website with premium design and performance optimization.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog" style="background: #ffffff;">
+    <h2>Blog</h2>
+    <div class="grid">
+      <div class="card" style="grid-column: span 2; text-align:center;">
+        <h3>🚀 Coming Soon</h3>
+        <p style="font-size:1.2rem; color:#64748b;">
+          Articles about Web Development, WordPress Tips, UI/UX Design, and Frontend Technologies.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+<section id="contact">
+  <h2>Get in Touch</h2>
+
+  <div class="contact-box">
+
+    <p><strong>Email:</strong> rhenzlanuza1@gmail.com</p>
+    <p><strong>Address:</strong> Balaoan, La Union, Philippines</p>
+    <p><strong>Phone:</strong> +63 956 536 4396</p>
+
+    <form style="margin-top:30px; text-align:left;">
+      
+      <input type="text" placeholder="Name" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
+      
+      <input type="email" placeholder="Email" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
+      
+      <input type="text" placeholder="Subject" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">
+      
+      <textarea placeholder="Message" rows="5" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;"></textarea>
+      
+      <button type="submit" class="btn" style="width:100%;">Send Message</button>
+    </form>
+
+  </div>
+</section>
+
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+const cards = document.querySelectorAll(".card");
+const links = document.querySelectorAll(".nav-link");
+const sections = document.querySelectorAll("section");
+
+// Smooth scrolling for nav links
+links.forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute("href");
+    const targetSection = document.querySelector(targetId);
+    
+    targetSection.scrollIntoView({ 
+      behavior: "smooth",
+      block: "start"
+    });
+
+    // Update active link
+    links.forEach(l => l.classList.remove("active"));
+    this.classList.add("active");
+  });
+});
+
+// Scroll animations
+window.addEventListener("scroll", () => {
+  // Animate cards
+  cards.forEach((card, index) => {
+    const rect = card.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      card.classList.add("show");
+      card.style.animationDelay = `${index * 0.1}s`;
+    }
+  });
+
+  // Active nav link
+  let current = "";
+  sections.forEach(sec => {
+    const sectionTop = sec.offsetTop;
+    const sectionHeight = sec.offsetHeight;
+    if (pageYOffset >= (sectionTop - 200)) {
+      current = sec.getAttribute("id");
+    }
+  });
+
+  links.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === "#" + current) {
+      link.classList.add("active");
+    }
+  });
+});
+
+// Intersection Observer for better performance
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.1 });
+
+cards.forEach(card => observer.observe(card));
+
+const serviceBoxes = document.querySelectorAll(".service-box");
+
+window.addEventListener("scroll", () => {
+  serviceBoxes.forEach(box => {
+    const rect = box.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      box.classList.add("show");
+    }
+  });
+
+});
+  const toggle = document.getElementById("themeToggle");
+
+toggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+    toggle.innerText = "☀️ Light Mode";
+  } else {
+    toggle.innerText = "🌙 Dark Mode";
+  }
+});
+</script>
+
+</body>
+</html> 
